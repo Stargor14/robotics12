@@ -1,4 +1,3 @@
-
 from collections import deque
 from imutils.video import VideoStream
 import numpy as np
@@ -20,9 +19,7 @@ colorLower = (0, 12, 190)#lower bound for binary mask creating
 colorUpper = (120, 255, 255)#upper bound for binary mask creating
 blurring=2#blurring factor, how many iterations of erode and dilate to run
 radMultiplier=0.6#how close to a circle does the opject have to be, 1 - perfect circle, 0 - not a circle at all
-global camera
-camera = picamera.PiCamera(resolution='800x600', framerate=15)
-
+cap=cv2.VideoCapture(0)
 #centimeter pixels
 walls=[]#create a wall object
 class wall:
@@ -54,12 +51,8 @@ def initialize():
     return True
 
 def scan():
-    global camera
     # grab the current frame
-    frame=None
-    with picamera.array.PiRGBArray(camera) as stream:
-        camera.capture(stream, format='gbr', use_video_port=True)
-        frame=stream.array
+    ret, frame = cap.read()
     # handle the frame from VideoCapture or VideoStream
     # if we are viewing a video and we did not grab a frame,
     # then we have reached the end of the vide
